@@ -1,0 +1,282 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Management</title>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --light-background: #C0C2B0;
+      --dark-background: #111111;
+      --light-text: #C0C2B0;
+      --dark-text: #dddddd;
+      --primary-color: #396B6E;
+      --primary-button-bg: #396B6E;
+      --primary-button-hover-bg: #2A4E50;
+      --error-color: #FF4C4C;
+      --table-header-bg: #396B6E;
+    }
+    body {
+      font-family: 'Urbanist', sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--light-background);
+      color: var(--light-text);
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .top-bar {
+      background-color: #191A23;
+      color: var(--light-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 20px;
+    }
+    .top-bar a {
+      color: var(--light-text);
+      text-decoration: none;
+      font-size: 18px;
+    }
+    .top-bar h1 {
+      margin: 5px;
+      font-size: 29px;
+      flex-grow: 2;
+      text-align: center;
+    }
+    .form-container {
+      background-color: #191A23;
+      width: 100%;
+      max-width: 1200px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      margin: 20px auto;
+    }
+    h2 {
+      color: var(--light-text);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .operation-section {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .operation {
+      flex: 1;
+      margin: 0 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--light-text);
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: var(--primary-button-bg);
+      color: var(--light-text);
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+    button:hover {
+      background-color: var(--primary-button-hover-bg);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      color: #C0C2B0;
+    }
+    th {
+      background-color: var(--table-header-bg);
+    }
+    .success-message,
+    .error-message {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .success-message {
+      background-color: var(--primary-button-bg);
+      color: #C0C2B0;
+      padding: 10px;
+      border-radius: 3px;
+    }
+    .error-message {
+      color: var(--error-color);
+    }
+  </style>
+</head>
+
+<body>
+<div class="top-bar">
+  <h1>Employee Management</h1>
+</div>
+
+<div class="form-container">
+  <div class="operation-section">
+
+    <!-- Add Employee Section -->
+    <div class="operation">
+      <h2>Add Employee</h2>
+      <form id="addUserForm">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" placeholder="First Name" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Email" required>
+
+        <button type="submit">Add Employee</button>
+      </form>
+    </div>
+
+    <!-- Update User Section -->
+    <div class="operation">
+      <h2>Update Employee</h2>
+      <form id="updateUserForm">
+        <label for="updateId">Employee ID:</label>
+        <input type="number" id="updateId" placeholder="Employee ID" required>
+
+        <label for="updateFirstName">First Name:</label>
+        <input type="text" id="updateFirstName" placeholder="First Name" required>
+
+        <label for="updateLastName">Last Name:</label>
+        <input type="text" id="updateLastName" placeholder="Last Name" required>
+
+        <label for="updateEmail">Email:</label>
+        <input type="email" id="updateEmail" placeholder="Email" required>
+
+        <button type="submit">Update Employee</button>
+      </form>
+    </div>
+
+    <!-- Delete User Section -->
+    <div class="operation">
+      <h2>Delete Employee</h2>
+      <form id="deleteUserForm">
+        <label for="deleteId">Employee ID:</label>
+        <input type="number" id="deleteId" placeholder="Employee ID" required>
+        <button type="submit">Delete Employee</button>
+      </form>
+    </div>
+  </div>
+
+  <h2>All Employees</h2>
+  <table id="userTable">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <div class="success-message" id="successMessage" style="display: none;">Action Successful!</div>
+  <div class="error-message" id="errorMessage" style="display: none;"></div>
+</div>
+
+<script>
+  // Update the URL paths to match the controller endpoints
+
+  document.getElementById('addUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const user = {
+      firstName: document.getElementById('firstName').value,
+      lastName: document.getElementById('lastName').value,
+      email: document.getElementById('email').value
+    };
+    const response = await fetch('/addEmployee', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user)
+    });
+    handleResponse(response);
+  });
+
+  document.getElementById('updateUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const user = {
+      empId: document.getElementById('updateId').value,
+      firstName: document.getElementById('updateFirstName').value,
+      lastName: document.getElementById('updateLastName').value,
+      email: document.getElementById('updateEmail').value
+    };
+    const response = await fetch('/update', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user)
+    });
+    handleResponse(response);
+  });
+
+  document.getElementById('deleteUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const empId = document.getElementById('deleteId').value;
+    const response = await fetch(`/delete/${empId}`, {
+      method: 'DELETE'
+    });
+    handleResponse(response);
+  });
+
+  async function handleResponse(response) {
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+    if (response.ok) {
+      successMessage.style.display = 'block';
+      errorMessage.style.display = 'none';
+      loadUsers();
+    } else {
+      const errorData = await response.text();
+      errorMessage.textContent = errorData || 'An error occurred';
+      errorMessage.style.display = 'block';
+      successMessage.style.display = 'none';
+    }
+    setTimeout(() => {
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+    }, 3000);
+  }
+
+  async function loadUsers() {
+    const response = await fetch('/Employees');
+    const users = await response.json();
+    const userTableBody = document.getElementById('userTable').querySelector('tbody');
+    userTableBody.innerHTML = '';
+    users.forEach(user => {
+      const row = userTableBody.insertRow();
+      row.innerHTML = `<td>${user.empId}</td><td>${user.firstName}</td><td>${user.lastName}</td><td>${user.email}</td>`;
+    });
+  }
+
+  loadUsers();
+</script>
+</body>
+
+</html>
